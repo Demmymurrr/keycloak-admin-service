@@ -1,0 +1,35 @@
+server:
+  port: 8080
+  tomcat:
+    relaxed-query-chars: '|,{,},[,]'
+
+spring:
+  application:
+    name: backend
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${keycloak.url}/realms/${keycloak.realm}
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+
+keycloak:
+  url: http://localhost:8472
+  realm: test_realm
+  username: admin
+  password: <secret>
+  client-id: spring-auth-client
+
+
+
+logging:
+  pattern:
+    dateformat: yyyy-MM-dd HH:mm:ss.SSS,Europe/Moscow
+  file:
+    name: logs/backend.log
+  logback:
+    rollingpolicy:
+      max-history: 30
+  level:
+    ru.demmy.keycloak*: debug
+    ROOT: info
